@@ -2,7 +2,8 @@
 from django import forms
 
 # Postモデルもインポート
-from .models import Post
+# commentモデルもインポート
+from .models import Post, Comment
 
 # これはフォームの名前です。 このフォームが ModelForm の一種だとDjangoに伝える必要があります。  
 class PostForm(forms.ModelForm):
@@ -11,3 +12,9 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('title', 'text',)
+        
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ('author', 'text',)
