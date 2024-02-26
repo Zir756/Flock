@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 # '.models'=１つ上がカレントアプリケーションの為 . とファイル名だけで記述することができる。  
 # そして"Post"モデルを指定してインポートする。  
@@ -18,4 +18,12 @@ def post_list(request):
     # {}の中に指定した情報をテンプレートが表示してくれる。中身は'名前'と'値'
     return render(request, 'blog/post_list.html', {'posts': posts})
     
-    
+# post_detail関数  
+def post_detail(request, pk):
+  
+    # 与えられたpkのPostがない場合、Page Not Found 404 ページが表示されます。
+    post = get_object_or_404(Post, pk=pk)
+    # request引数 'blog/post_detail.html'を組み立てる。  
+    # renderという関数を呼び出して得た値をreturnする。 
+    # {}の中に指定した情報をテンプレートが表示してくれる。中身は'名前'と'値'
+    return render(request, 'blog/post_detail.html', {'post': post})
