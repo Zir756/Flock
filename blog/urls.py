@@ -26,4 +26,13 @@ urlpatterns = [
     path('comment/<int:pk>/remove/', views.comment_remove, name='comment_remove'),
     
     path('signup/', views.signup, name='signup'),
+    
+    path('', views.todo_list, name='todo_list'),
+    path('create/', views.todo_create, name='todo_create'),  # ToDo追加用のURL
+    
+    path('todo/<int:pk>/', views.todo_detail, name='todo_detail'),
+    
+    path('todo/<int:pk>/edit/', views.todo_edit, name='todo_edit'),
+    
+    path('todo/<int:pk>/delete/', views.todo_delete, name='todo_delete'),
 ]

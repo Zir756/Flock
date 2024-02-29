@@ -67,3 +67,13 @@ class Comment(models.Model):
         
 def approved_comments(self):
     return self.comments.filter(approved_comment=True)
+    
+    
+class ToDo(models.Model):
+    title = models.CharField(max_length=200)
+    created_date = models.DateTimeField(default=timezone.now)
+    deadline = models.DateField(blank=True, null=True)  # DateTimeFieldからDateFieldに変更
+    completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title

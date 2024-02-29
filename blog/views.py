@@ -16,17 +16,26 @@ from django.contrib.auth import login, authenticate
 
 from .forms import SignUpForm
 
+from .models import ToDo
+
+from .forms import ToDoForm  # ToDoフォームをインポート
+
 # Create your views here.
 
 # post_list関数  
 def post_list(request):
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
+    todos = ToDo.objects.all()  # ToDoリストを取得
+    print(todos)  # ToDoリストが正しく取得されているかを確認するためのデバッグ出力
+    form = ToDoForm()  # ToDo追加フォームを作成
+    return render(request, 'blog/post_list.html', {'posts': posts, 'todos': todos, 'form': form})
     
-    # 投稿をtimezoneを参照して並べ替える。  
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    # request引数 'blog/post_list.html'を組み立てる。  
-    # renderという関数を呼び出して得た値をreturnする。 
-    # {}の中に指定した情報をテンプレートが表示してくれる。中身は'名前'と'値'
-    return render(request, 'blog/post_list.html', {'posts': posts})
+    # # 投稿をtimezoneを参照して並べ替える。  
+    # posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    # # request引数 'blog/post_list.html'を組み立てる。  
+    # # renderという関数を呼び出して得た値をreturnする。 
+    # # {}の中に指定した情報をテンプレートが表示してくれる。中身は'名前'と'値'
+    # return render(request, 'blog/post_list.html', {'posts': posts})
     
 # post_detail関数  
 def post_detail(request, pk):
@@ -125,3 +134,38 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
+    
+def todo_list(request):
+    todos = ToDo.objects.all()  # ToDoモデルのオブジェクトを取得
+    form = ToDoForm()  # ToDo追加フォームを作成
+    return render(request, 'todo/todo_list.html', {'todos': todos, 'form': form})
+
+def todo_create(request):
+    if request.method == 'POST':
+        form = ToDoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('todo_list')
+    else:
+        form = ToDoForm()
+    return render(request, 'todo/todo_create.html', {'form': form})
+    
+def todo_detail(request, pk):
+    todo = get_object_or_404(ToDo, pk=pk)
+    return render(request, 'todo/todo_detail.html', {'todo': todo})
+    
+def todo_edit(request, pk):
+    todo = get_object_or_404(ToDo, pk=pk)
+    if request.method == 'POST':
+        form = ToDoForm(request.POST, instance=todo)
+        if form.is_valid():
+            form.save()
+            return redirect('todo_detail', pk=pk)  # 保存後にTodoの詳細ページにリダイレクト
+    else:
+        form = ToDoForm(instance=todo)
+    return render(request, 'todo/todo_edit.html', {'form': form})
+    
+def todo_delete(request, pk):
+    todo = get_object_or_404(ToDo, pk=pk)
+    todo.delete()
+    return redirect('todo_list')  # Todoの一覧ページにリダイレクト

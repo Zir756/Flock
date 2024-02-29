@@ -14,15 +14,26 @@
                 <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
             {% else %}
                 <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
-                <a href="{% url 'signup' %}">新規ユーザー登録</a>
             {% endif %}
             <h1><a href="/">Flock</a></h1>
+            <div class="signup-link"> 
+                <a href="{% url 'signup' %}">新規ユーザー登録</a>
+            </div>
         </div>
         <div class="content container">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-xs-9">
                 {% block content %}
                 {% endblock %}
+                </div>
+                <div class="col-xs-3">
+                    <!-- ToDoリストを表示するためのコードを追加 -->
+                    {% include 'todo/todo_list.html' %}
+                    <!-- ToDo追加フォームを表示する -->
+                    <form method="post" action="{% url 'todo_create' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">ToDoを追加</button>
+                    </form>
                 </div>
             </div>
         </div>
