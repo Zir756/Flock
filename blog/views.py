@@ -134,37 +134,42 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
-    
+
+@login_required    
 def todo_list(request):
     todos = ToDo.objects.all()  # ToDoモデルのオブジェクトを取得
     form = ToDoForm()  # ToDo追加フォームを作成
     return render(request, 'todo/todo_list.html', {'todos': todos, 'form': form})
-
+   
+@login_required 
 def todo_create(request):
     if request.method == 'POST':
         form = ToDoForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('todo_list')
+            return redirect('post_list')  # Todoを作成した後、post_listページにリダイレクト
     else:
         form = ToDoForm()
     return render(request, 'todo/todo_create.html', {'form': form})
-    
+
+@login_required    
 def todo_detail(request, pk):
     todo = get_object_or_404(ToDo, pk=pk)
     return render(request, 'todo/todo_detail.html', {'todo': todo})
-    
+
+@login_required    
 def todo_edit(request, pk):
     todo = get_object_or_404(ToDo, pk=pk)
     if request.method == 'POST':
         form = ToDoForm(request.POST, instance=todo)
         if form.is_valid():
             form.save()
-            return redirect('todo_detail', pk=pk)  # 保存後にTodoの詳細ページにリダイレクト
+            return redirect('post_list')  # Todoを編集した後、post_listページにリダイレクト
     else:
         form = ToDoForm(instance=todo)
     return render(request, 'todo/todo_edit.html', {'form': form})
-    
+
+@login_required    
 def todo_delete(request, pk):
     todo = get_object_or_404(ToDo, pk=pk)
     todo.delete()

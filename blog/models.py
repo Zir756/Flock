@@ -77,3 +77,6 @@ class ToDo(models.Model):
 
     def __str__(self):
         return self.title
+        
+# objectsマネージャーを追加する。  
+    objects = models.Manager()
