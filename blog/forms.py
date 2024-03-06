@@ -10,6 +10,8 @@ from django.contrib.auth.models import User
 
 from .models import ToDo
 
+from .models import Note
+
 # これはフォームの名前です。 このフォームが ModelForm の一種だとDjangoに伝える必要があります。  
 class PostForm(forms.ModelForm):
 
