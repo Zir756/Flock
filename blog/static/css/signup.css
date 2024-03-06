@@ -1,4 +1,8 @@
 /* 全体のフォームのスタイル */
+body {
+    background-color: #7C7C7C;
+}
+
 .signup-form {
     max-width: 400px; /* フォームの最大幅 */
     margin: 0 auto; /* 中央揃え */
@@ -42,5 +46,6 @@
 
 /* Submitボタンのホバースタイル */
 .signup-form button[type="submit"]:hover {
-    background-color: #0056b3; /* ホバー時の背景色 */
+    background-color: #000000; /* ホバー時の背景色 */
 }
+
