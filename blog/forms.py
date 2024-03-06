@@ -38,3 +38,11 @@ class ToDoForm(forms.ModelForm):
         widgets = {
             'deadline': forms.DateInput(attrs={'type': 'date'})
         }
+
+class NoteForm(forms.ModelForm):
+    class Meta:
+        model = Note
+        fields = ['title', 'content']
+        widgets = {
+            'deadline': forms.DateInput(attrs={'type': 'date'})
+        }
