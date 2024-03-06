@@ -35,4 +35,10 @@ urlpatterns = [
     path('todo/<int:pk>/edit/', views.todo_edit, name='todo_edit'),
     
     path('todo/<int:pk>/delete/', views.todo_delete, name='todo_delete'),
+
+    path('note/', views.note_list, name='note_list'),
+    path('note/<int:pk>/', views.note_detail, name='note_detail'),
+    path('note/new/', views.note_create, name='note_create'),
+    path('note/<int:pk>/edit/', views.note_update, name='note_update'),
+    path('note/<int:pk>/delete/', views.note_delete, name='note_delete'),
 ]
